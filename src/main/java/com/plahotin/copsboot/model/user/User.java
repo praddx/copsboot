@@ -1,9 +1,7 @@
 package com.plahotin.copsboot.model.user;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.plahotin.copsboot.model.AbstractEntity;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,12 +13,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "copsboot_user")
 @Data
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-public class User {
+public class User extends AbstractEntity<UserId> {
 
-    @Id
-    private UUID id;
     private String name;
     private String email;
     private String password;
@@ -30,5 +24,11 @@ public class User {
     @NotNull
     private Set<UserRole> roles;
 
-
+    public User(@NonNull UserId id, String name, String email, String password, @NotNull Set<UserRole> roles) {
+        super(id);
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
 }
