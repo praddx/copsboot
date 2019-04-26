@@ -6,7 +6,6 @@ import lombok.NonNull;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.MappedSuperclass;
-import java.io.Serializable;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
 
