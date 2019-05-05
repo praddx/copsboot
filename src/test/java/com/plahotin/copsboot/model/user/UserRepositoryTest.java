@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,10 +40,54 @@ public class UserRepositoryTest {
         HashSet<UserRole> roles = new HashSet<>();
         roles.add(UserRole.OFFICER);
         User user = repository.save(new User(repository.nextId(),
-                "John Smith", "john@mail.com", "my-pass", roles));
+                "john@mail.com", "my-pass", roles));
 
         assertThat(user).isNotNull();
 
         assertThat(repository.count()).isEqualTo(1L);
     }
+
+    @Test
+    public void testFindByEmail() {
+        User user = Users.newRandomOfficer();
+        repository.save(user);
+        Optional<User> optional = repository.findByEmailIgnoreCase(user.getEmail());
+
+        assertThat(optional).isNotEmpty()
+            .contains(user);
+    }
+
+    @Test
+    public void testFindByEmailIgnoreCase() {
+        User user = Users.newRandomOfficer();
+        repository.save(user);
+        Optional<User> optional = repository.findByEmailIgnoreCase(user.getEmail());
+
+        assertThat(optional).isNotEmpty()
+                .contains(user);
+    }
+
+
+    @Test
+    public void findByEmail_unknownEmail() {
+        User user = Users.newRandomOfficer();
+        repository.save(user);
+        Optional<User> optional = repository.findByEmailIgnoreCase("unknown@email.com");
+        assertThat(optional).isEmpty();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

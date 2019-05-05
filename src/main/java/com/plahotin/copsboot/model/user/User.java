@@ -13,9 +13,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "copsboot_user")
 @Data
+@NoArgsConstructor
 public class User extends AbstractEntity<UserId> {
 
-    private String name;
     private String email;
     private String password;
 
@@ -24,11 +24,23 @@ public class User extends AbstractEntity<UserId> {
     @NotNull
     private Set<UserRole> roles;
 
-    public User(@NonNull UserId id, String name, String email, String password, @NotNull Set<UserRole> roles) {
+    public User(@NonNull UserId id, String email, String password, @NotNull Set<UserRole> roles) {
         super(id);
-        this.name = name;
         this.email = email;
         this.password = password;
         this.roles = roles;
     }
+
+    public static User createOfficer(UserId id, String email, String password) {
+        Set<UserRole> role = new HashSet<>();
+        role.add(UserRole.OFFICER);
+        return new User(id, email, password, role);
+    }
+
+    public static User createCaptain(UserId id, String email, String password) {
+        Set<UserRole> role = new HashSet<>();
+        role.add(UserRole.CAPTAIN);
+        return new User(id, email, password, role);
+    }
+
 }

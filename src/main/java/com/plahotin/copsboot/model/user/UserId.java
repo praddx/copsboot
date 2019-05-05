@@ -14,4 +14,8 @@ public class UserId extends AbstractEntityId<UUID> {
     public UserId(UUID id) {
         super(id);
     }
+
+    public static UserId from(UUID uuid) {
+        return new UserId(uuid);
+    }
 }

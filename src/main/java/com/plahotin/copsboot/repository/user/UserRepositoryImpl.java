@@ -1,8 +1,10 @@
 package com.plahotin.copsboot.repository.user;
 
+import com.plahotin.copsboot.model.user.User;
 import com.plahotin.copsboot.model.user.UserId;
 import lombok.AllArgsConstructor;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -18,4 +20,6 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     public UserId nextId() {
         return new UserId(generator.getNextUniqueId());
     }
+
+
 }

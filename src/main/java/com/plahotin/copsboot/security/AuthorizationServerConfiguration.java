@@ -1,6 +1,7 @@
 package com.plahotin.copsboot.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,6 +21,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     private AuthenticationManager authenticationManager;
 
     @Autowired
+//    @Qualifier(value = "applicationUserDetailsService")
     private UserDetailsService userDetailsService;
 
     @Autowired
@@ -27,6 +29,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Autowired
     private TokenStore tokenStore;
+
+    @Autowired
+    private SecurityConfiguration securityConfiguration;
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
@@ -36,11 +41,11 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-                .withClient("copsboot-mobile-client")
+                .withClient(securityConfiguration.getMobileAppClientId())
                 .authorizedGrantTypes("password", "refresh_token")
                 .scopes("mobile_app")
                 .resourceIds("copsboot_resource")
-                .secret(passwordEncoder.encode("lkEQ4qeoi;U*#lkjasdfa*&"));
+                .secret(passwordEncoder.encode(securityConfiguration.getMobileAppClientSecret()));
     }
 
     @Override
